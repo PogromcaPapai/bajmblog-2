@@ -10,20 +10,25 @@ def autorzy():
 def zacznij_gierke():
     messagebox.showinfo("Rozpocznij gierkę","Za-za-zaczynajmy!")
 def zmien_zespol():
-    messagebox.showinfo("Zmienić zespół?","Tutaj będzie opcja zmiany zespołu but wait")
+    messagebox.showinfo("Zmienić zespół?","Tutaj będzie opcja zmiany przeciwnika but wait")
 
 
-glowne_okno=Tk()
-glowne_okno.title("The Bajm Blog RPG")
-glowne_okno.geometry("300x250")
+glowneOkno=Tk()
 
-przycisk_autorzy=Button(glowne_okno,text="Autorzy",command=autorzy)
-przycisk_autorzy.grid()
+pasekMenu=Menu(glowneOkno)
+pierwszeMenu=Menu(pasekMenu,tearoff=0)
 
-przycisk_zacznij=Button(glowne_okno,text="Rozpocznij grę",command=zacznij_gierke)
-przycisk_zacznij.grid()
 
-przycisk_zespol=Button(glowne_okno,text="Zmień swój zespół",command=zmien_zespol)
-przycisk_zespol.grid()
+pierwszeMenu.add_command(label="Zmień przeciwnika",command=zmien_zespol)
+pierwszeMenu.add_command(label="Zamknij",command=glowneOkno.quit)
+pasekMenu.add_cascade(label="Opcje",menu=pierwszeMenu)
 
-glowne_okno.mainloop()
+pomocMenu=Menu(pasekMenu,tearoff=0)
+pomocMenu.add_command(label="O Autorach",command=autorzy)
+pasekMenu.add_cascade(label="Autorzy",menu=pomocMenu)
+
+przycisk_rozpoczecie=Button(glowneOkno,text="Rozpocznij grę!",command=zacznij_gierke)
+przycisk_rozpoczecie.place(x=60,y=70)
+
+glowneOkno.config(menu=pasekMenu)
+glowneOkno.mainloop()
