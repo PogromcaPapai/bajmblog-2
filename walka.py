@@ -46,30 +46,42 @@ class Walka(Frame):
         self.gracz = jednostka(imie_boh,gracz=True)
         self.przeciwnik = jednostka(imie_przec)
         self.zbudujprzeciwnika()
+        self.zbudujbohatera()
 
     def zbudujprzeciwnika(self):
         ####
         # Tworzy obszar wyświetlający przeciwnika
         ####
-        rama_przec = Frame(self)
+        rama = Frame(self)
 
         # Informacje
-        hp = Label(rama_przec, text=self.przeciwnik.zwrocimie()+'\nHP: '+self.przeciwnik.zwrochp())
+        hp = Label(rama, text=self.przeciwnik.zwrocimie()+'\nHP: '+self.przeciwnik.zwrochp())
         hp.pack()
         
         # Obraz
-        plotno = Label(rama_przec, image=self.przeciwnik.zwrocobraz())
+        plotno = Label(rama, image=self.przeciwnik.zwrocobraz())
         plotno.pack()
-        rama_przec.place(relx=0.65,rely=0.01)
+        rama.place(relx=0.65,rely=0.01)
 
     def zbudujbohatera(self):
         ####
         # Tworzy obszar wyświetlający gracza
         ####
-        print('x')
+        rama = Frame(self)
+        
+        # Obraz
+        plotno = Label(rama, image=self.gracz.zwrocobraz())
+        plotno.pack()
+
+        # Informacje
+        hp = Label(rama, text=self.gracz.zwrocimie()+'\nHP: '+self.gracz.zwrochp())
+        hp.pack()
+        
+        rama.place(relx=0.1,rely=0.3)
+
 
 
 okno = Tk()
 okno.geometry('960x640')
-Walka(okno,'pies','kot').place(relwidth=1,relheight=1)
+Walka(okno,'gracz','kot').place(relwidth=1,relheight=1)
 okno.mainloop()
