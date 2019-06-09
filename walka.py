@@ -19,7 +19,7 @@ class jednostka():
         self.imie=imie
         self.hp=IntVar()
         if gracz==True:
-            self.hp.set(1000)
+            self.hp.set(400)
             fota=Image.open('test.jpg')
         else:
             self.hp.set(100)
@@ -37,19 +37,54 @@ class jednostka():
         return self.imie
 
 class Walka(Frame):
-    def atakuj(self):
-        czym = self.wybrana.get()
-        print('atak',czym)
+
+    def dokoncz_ture(self):
+        ####
+        # Funkcja wykonywana pod zakończenie każdej akcji gracza.
+        # Aktualizuje UI oraz sprawdza poziom życia.
+        ####
+        #Tura przeciwnika
+        baza = polaczenie()
+        kursor = baza.cursor()
+        kursor.execute("SELECT * FROM cytaty WHERE utwor = (?) ORDER BY RANDOM()",[self.przeciwnik.zwrocimie()])
+        wynik = kursor.fetchone()[0]
+        baza.close()
+        sila = len(wynik)
+        self.gracz.hp.set(self.gracz.hp.get()-sila)
+        messagebox.showinfo(title="Wynik ataku", message="Przeciwnik wykorzystuje linię: \""+wynik+"\"\nOtrzymałeś "+str(sila)+" punktów obrażeń.\nZostało Ci "+self.gracz.zwrochp()+" HP.")
+        #Sprawdzenie poziomu życia
+        if self.gracz.hp.get()<=0:
+            messagebox.showwarning(message="Przegrałeś pojedynek!")
+            self.quit()
+        elif self.przeciwnik.hp.get()<=0:
+            messagebox.showwarning(message="Wygrałeś pojedynek!")
+            self.quit()
+        #Odświeżenie ekranu
         self.event_generate('<BackSpace>')
 
-    def pominture(self):
-        print('tura')
-        self.event_generate('<BackSpace>')
+    def atakuj(self):
+        ####
+        # Funkcja wykonywana przy naciśnięciu przycisku "Atakuj"
+        ####
+        czym = self.wybrana.get()
+        assert czym!="Wybierz broń","Nie wybrano broni"
+        baza = polaczenie()
+        kursor = baza.cursor()
+        kursor.execute("SELECT * FROM cytaty WHERE utwor = (?) ORDER BY RANDOM()",[czym])
+        wynik = kursor.fetchone()[0]
+        baza.close()
+        sila=len(wynik)
+        self.przeciwnik.hp.set(self.przeciwnik.hp.get()-sila)
+        messagebox.showinfo(title="Wynik ataku", message="Wykorzystujesz linię: \""+wynik+"\"\nPrzeciwnik otrzymał "+str(sila)+" punktów obrażeń.\nZostało mu "+self.przeciwnik.zwrochp()+" HP.")
+        self.dokoncz_ture()
 
     def lecz(self):
-        self.gracz.hp.set(self.gracz.hp.get()+10)
-        messagebox.showinfo("Leczenie", self.gracz.zwrochp())
-        self.event_generate('<BackSpace>')
+        ####
+        # Funkcja wykonywana przy wciśnięciu przycisku "Wylecz się"
+        ####
+        self.gracz.hp.set(self.gracz.hp.get()+50)
+        messagebox.showinfo(title="Leczenie", message="Otrzymujesz 50 HP, masz teraz łącznie "+self.gracz.zwrochp()+" HP.")
+        self.dokoncz_ture()
 
     def __init__(self,master,gracz,przeciwnik):
         ####
@@ -102,7 +137,7 @@ class Walka(Frame):
         rama = Frame(self)
 
         # Omijanie tury
-        przycisk_omin = Button(rama, text="Pomiń turę", command=self.pominture)
+        przycisk_omin = Button(rama, text="Pomiń turę", command=self.dokoncz_ture)
         przycisk_omin.config(height=2,width=16)
         przycisk_omin.grid(row=0,column=0)
 
@@ -125,7 +160,7 @@ class Walka(Frame):
         rama = Frame(self)
         
         # Dropdown menu
-        opcje = {'pies','kot','arka'}
+        opcje = zbierz()
         self.wybrana = StringVar(self, 'Wybierz broń')
         polewyboru = OptionMenu(rama, self.wybrana, *opcje)
         polewyboru.config(height=2, width = 34)
@@ -138,16 +173,28 @@ class Walka(Frame):
 
         rama.place(relx=0.65, rely=0.79)
 
-
-
-
 '''
 Funkcje do pobierania eq
 '''
 
 def polaczenie():
-        baza = sqlite3.connect('dane.db')
-        return baza
+    ####
+    # Funkcja generuje połączenie do bazy danych
+    ####
+    baza = sqlite3.connect('dane.db')
+    return baza
+
+def zbierz():
+    ####
+    # Tworzy listę dostępnych utworów (DO POPRAWY PO STWORZENIU MAPY - dodać to tabeli dodatkowe kolumny)
+    ####
+    baza = polaczenie()
+    kursor = baza.cursor()
+    kursor.execute('SELECT DISTINCT utwor FROM cytaty')
+    wynik = kursor.fetchall()
+    baza.close()
+    return [i[0] for i in wynik] #zwraca listę utworów, zamiast listy singletonów z utworami
+
 
 '''
 Działanie programu
@@ -155,12 +202,15 @@ Działanie programu
 okno = Tk()
 okno.geometry('960x640')
 gracz = jednostka('gracz',gracz=True)
-przeciwnik = jednostka('kot')
+przeciwnik = jednostka('Biala Armia')
 
 def odswiez(obiekt, okno=okno, gracz=gracz, przeciwnik=przeciwnik):
-    obiekt.destroy()
-    obiekt = Walka(okno, gracz, przeciwnik)
-    obiekt.place(relwidth=1,relheight=1)
+        ####
+        # Funkcja służy do odświeżania interfejsu
+        ####
+        obiekt.destroy()
+        obiekt = Walka(okno, gracz, przeciwnik)
+        obiekt.place(relwidth=1,relheight=1)
 
 rama = Walka(okno, gracz, przeciwnik)
 rama.place(relwidth=1,relheight=1)
