@@ -40,9 +40,11 @@ class Walka(Frame):
     def atakuj(self):
         czym = self.wybrana.get()
         print('atak',czym)
+        self.event_generate('<BackSpace>')
 
     def pominture(self):
         print('tura')
+        self.event_generate('<BackSpace>')
 
     def lecz(self):
         self.gracz.hp.set(self.gracz.hp.get()+10)
@@ -150,12 +152,17 @@ def polaczenie():
 '''
 Działanie programu
 '''
-
-
 okno = Tk()
 okno.geometry('960x640')
 gracz = jednostka('gracz',gracz=True)
 przeciwnik = jednostka('kot')
-Walka(okno, gracz, przeciwnik).place(relwidth=1,relheight=1)
-okno.bind('<BackSpace>',lambda x: Walka(okno, gracz, przeciwnik).place(relwidth=1,relheight=1))
+
+def odswiez(obiekt, okno=okno, gracz=gracz, przeciwnik=przeciwnik):
+    obiekt.destroy()
+    obiekt = Walka(okno, gracz, przeciwnik)
+    obiekt.place(relwidth=1,relheight=1)
+
+rama = Walka(okno, gracz, przeciwnik)
+rama.place(relwidth=1,relheight=1)
+okno.bind('<BackSpace>', lambda x: odswiez(rama))
 okno.mainloop()
