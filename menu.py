@@ -2,6 +2,7 @@
 
 from tkinter import *
 from tkinter import messagebox
+prom PIL import Image,ImageTK
 
 #funkcje przycisków
 
@@ -32,3 +33,10 @@ przycisk_rozpoczecie.place(x=60,y=70)
 
 glowneOkno.config(menu=pasekMenu)
 glowneOkno.mainloop()
+
+#daje logo i kocham śledzie
+
+logo_canvas= Canvas(glowneOkno,width=1000,height=200)
+logo_canvas.pack()
+logo_pliczek=ImageTk.PhotoImage(Image.open('logo.gif))
+logo_canvas.create_image(479,100,image=logo_plik)
