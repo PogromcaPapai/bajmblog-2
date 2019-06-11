@@ -17,18 +17,22 @@ obraz1=Image.open("czarny.jpg")
 obrazTk1=ImageTk.PhotoImage(obraz1)
 wysokosc1=random.randrange(24)*20+20
 szerokosc1=random.randrange(24)*20+20
+status1 = 1 #stan aktywności obiektu
 
 obrazTk2=ImageTk.PhotoImage(obraz1)
 wysokosc2=random.randrange(24)*20+20
 szerokosc2=random.randrange(24)*20+20
+status2 = 1
 
 obrazTk3=ImageTk.PhotoImage(obraz1)
 wysokosc3=random.randrange(24)*20+20
 szerokosc3=random.randrange(24)*20+20
+status3 = 1
 
 obrazTk4=ImageTk.PhotoImage(obraz1)
 wysokosc4=random.randrange(24)*20+20
 szerokosc4=random.randrange(24)*20+20
+status4 = 1
 
 #bialy obiekt sterowany wsadem przez użytkownika
 obraz_moving=Image.open("biały.jpg")
@@ -47,20 +51,29 @@ image = canvas.create_image(szerokosc_moving,wysokosc_moving,image=obrazTk_movin
 
 #okno z miejscem na walkę
 def popup():
+    global szerokosc_moving, wysokosc_moving, szerokosc4, wysokosc4, szerokosc3, wysokosc3, szerokosc2, wysokosc2, szerokosc1, wysokosc1, status1, status2, status3, status4    
     top = Toplevel()
     top.title("Miejsce na walkę")
+    if szerokosc_moving == szerokosc1 and wysokosc_moving == wysokosc1 and status1 == 1:
+        status1 -= 1 #dezaktywacja obiektu
+    elif szerokosc_moving == szerokosc2 and wysokosc_moving == wysokosc2 and status2 == 1:
+        status2 -= 1
+    elif szerokosc_moving == szerokosc3 and wysokosc_moving == wysokosc3 and status3 == 1:
+        status3 -= 1
+    elif szerokosc_moving == szerokosc4 and wysokosc_moving == wysokosc4 and status4 == 1:
+        status4 -= 1
     top.mainloop()
 
-#funkcja sprawdzająca położenie sterowanego obiektu    
+#funkcja sprawdzająca położenie i aktywnośc obiektu    
 def sprawdz_polozenie():
-    global szerokosc_moving, wysokosc_moving, szerokosc4, wysokosc4, szerokosc3, wysokosc3, szerokosc2, wysokosc2, szerokosc1, wysokosc1
-    if szerokosc_moving == szerokosc1 and wysokosc_moving == wysokosc1:
+    global szerokosc_moving, wysokosc_moving, szerokosc4, wysokosc4, szerokosc3, wysokosc3, szerokosc2, wysokosc2, szerokosc1, wysokosc1, status1, status2, status3, status4
+    if szerokosc_moving == szerokosc1 and wysokosc_moving == wysokosc1 and status1 == 1:
         popup()
-    elif szerokosc_moving == szerokosc2 and wysokosc_moving == wysokosc2:
+    elif szerokosc_moving == szerokosc2 and wysokosc_moving == wysokosc2 and status2 == 1:
         popup()
-    elif szerokosc_moving == szerokosc3 and wysokosc_moving == wysokosc3:
+    elif szerokosc_moving == szerokosc3 and wysokosc_moving == wysokosc3 and status3 == 1:
         popup()
-    elif szerokosc_moving == szerokosc4 and wysokosc_moving == wysokosc4:
+    elif szerokosc_moving == szerokosc4 and wysokosc_moving == wysokosc4 and status4 == 1:
         popup()
 
 #funkcja ruchu z ciągłą weryfikacją położenia        
