@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import random
+from os import system
 
 root = Tk()
 
@@ -52,8 +53,7 @@ image = canvas.create_image(szerokosc_moving,wysokosc_moving,image=obrazTk_movin
 #okno z miejscem na walkę
 def popup():
     global szerokosc_moving, wysokosc_moving, szerokosc4, wysokosc4, szerokosc3, wysokosc3, szerokosc2, wysokosc2, szerokosc1, wysokosc1, status1, status2, status3, status4    
-    top = Toplevel()
-    top.title("Miejsce na walkę")
+    system('python walka.py')
     if szerokosc_moving == szerokosc1 and wysokosc_moving == wysokosc1 and status1 == 1:
         status1 -= 1 #dezaktywacja obiektu
     elif szerokosc_moving == szerokosc2 and wysokosc_moving == wysokosc2 and status2 == 1:
@@ -62,7 +62,6 @@ def popup():
         status3 -= 1
     elif szerokosc_moving == szerokosc4 and wysokosc_moving == wysokosc4 and status4 == 1:
         status4 -= 1
-    top.mainloop()
 
 #funkcja sprawdzająca położenie i aktywnośc obiektu    
 def sprawdz_polozenie():
