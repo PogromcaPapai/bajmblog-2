@@ -2,7 +2,7 @@
 
 from tkinter import *
 from tkinter import messagebox
-prom PIL import Image,ImageTK
+from PIL import Image, ImageTK
 
 #funkcje przycisków
 
@@ -38,5 +38,5 @@ glowneOkno.mainloop()
 
 logo_canvas= Canvas(glowneOkno,width=1000,height=200)
 logo_canvas.pack()
-logo_pliczek=ImageTk.PhotoImage(Image.open('logo.gif))
+logo_pliczek=ImageTk.PhotoImage(Image.open('logo.gif'))
 logo_canvas.create_image(479,100,image=logo_plik)
