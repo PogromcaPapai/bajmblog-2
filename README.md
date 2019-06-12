@@ -1,9 +1,10 @@
-# bajmblog-2
+# BajmBlog 2: Upadłe królestwo
 Long awaited sequel
 
 ## Opis
 Prosta gra rpg z całkiem znośną mechaniką, ale zdecydowanie zbyt małym budżetem. Zadaniem gracza jest zbieranie kolejnych utworów Bajmu walcząc jednocześnie z pojawiającymi się przeciwnikami.
 Ogólnie ta gra jest zbyt dobrym pomysłem na zbyt mało czasu, więc po ocenieniu będę projekt kontynuował czyniąc z tego prawdziwe GOTY.
+Fabuła też będzie.
 
 ## Autorzy
 Jakub Dakowski, Natalia Majda, Wojciech Zięba
