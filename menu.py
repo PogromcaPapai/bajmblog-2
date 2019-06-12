@@ -37,8 +37,10 @@ def baza_bajm():
     messagebox.showinfo("Aktualizacja danych","Rozpoczęło się pobieranie utworów Bajmu")
     baza = polaczenie()
     baza.execute('DROP TABLE IF EXISTS bajm')
+    baza.execute('DROP TABLE IF EXISTS bajm_eq'
     kursor = baza.cursor()
-    kursor.execute('CREATE TABLE bajm (tresc text, utwor text, posiadanie integer)')
+    kursor.execute('CREATE TABLE bajm (tresc text, utwor text)')
+    kursor.execute('CREATE TABLE bajm_eq (tresc text, utwor text)')
     print('Baza utworzona')
     listaglowna = []
     adres = 'https://www.tekstowo.pl/piosenki_artysty,bajm'
@@ -76,7 +78,7 @@ def baza_przeciwnik():
     baza = polaczenie()
     baza.execute('DROP TABLE IF EXISTS przeciwnik')
     kursor = baza.cursor()
-    kursor.execute('CREATE TABLE przeciwnik (tresc text, utwor text, posiadanie integer)')
+    kursor.execute('CREATE TABLE przeciwnik (tresc text, utwor text)')
     print('Baza utworzona')
     listaglowna = []
     adres = zespol.get()
