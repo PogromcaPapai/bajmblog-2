@@ -6,6 +6,7 @@ from PIL import Image, ImageTk
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
+import os
 
 #baza danych 2.0
 
@@ -25,19 +26,19 @@ def usuwajzle(zwrot):
 
 def dodaj(kursor, tresc, zespol):
         if len(tresc[0])<=400 and len(tresc[0])>5:
-                kursor.execute('INSERT INTO '+zespol+' VALUES (?,?,?)', tresc)
+                kursor.execute('INSERT INTO '+zespol+' VALUES (?,?)', tresc)
 
 #funkcje przycisków czyli pierwsza wersja ale na sterydach xD
 
 def autorzy():
     messagebox.showinfo("Twórcy tego cuda","Jakub Dakowski\nNatalia Majda\nWojciech Zięba")
 def zacznij_gierke():
-    messagebox.showinfo("Rozpocznij gierkę","Za-za-zaczynajmy!")
+    os.system('python mapa.py')
 def baza_bajm():
     messagebox.showinfo("Aktualizacja danych","Rozpoczęło się pobieranie utworów Bajmu")
     baza = polaczenie()
     baza.execute('DROP TABLE IF EXISTS bajm')
-    baza.execute('DROP TABLE IF EXISTS bajm_eq'
+    baza.execute('DROP TABLE IF EXISTS bajm_eq')
     kursor = baza.cursor()
     kursor.execute('CREATE TABLE bajm (tresc text, utwor text)')
     kursor.execute('CREATE TABLE bajm_eq (utwor text)')
@@ -70,7 +71,7 @@ def baza_bajm():
         lista = str(wybrana_tekst).splitlines()
         for j in lista:
             tekst=usuwajzle(str(j))
-            dodaj(baza, (tekst, i, 0), 'bajm')
+            dodaj(baza, (tekst, i), 'bajm')
     baza.commit()
     baza.close()
 def baza_przeciwnik():
@@ -108,7 +109,7 @@ def baza_przeciwnik():
         lista = str(wybrana_tekst).splitlines()
         for j in lista:
             tekst=usuwajzle(str(j))
-            dodaj(baza, (tekst, i, 0), 'przeciwnik')
+            dodaj(baza, (tekst, i), 'przeciwnik')
     baza.commit()
     baza.close()
 def baza_both():
@@ -133,8 +134,8 @@ pasekMenu.add_cascade(label="Autorzy",menu=pomocMenu)
 
 logo_canvas= Canvas(glowneOkno,width=500,height=150)
 logo_canvas.pack()
-#logo_pliczek=ImageTk.PhotoImage(Image.open('logo.gif'))
-#logo_canvas.create_image(250,60,image=logo_pliczek)
+logo_pliczek=ImageTk.PhotoImage(Image.open('logo.gif'))
+logo_canvas.create_image(250,60,image=logo_pliczek)
 
 przycisk_rozpoczecie=Button(glowneOkno,text="Rozpocznij grę!",command=zacznij_gierke)
 przycisk_rozpoczecie.pack()
