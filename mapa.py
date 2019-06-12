@@ -61,12 +61,14 @@ def polaczenie():
 
 def popup():
     global szerokosc_moving, wysokosc_moving, szerokosc4, wysokosc4, szerokosc3, wysokosc3, szerokosc2, wysokosc2, szerokosc1, wysokosc1, status1, status2, status3, status4    
-    if random.randrange(0,1)==0:
+    if random.randrange(0,3)==0:
         system('python walka.py')
     else:
         baza = polaczenie()
         kursor = baza.cursor()
         kursor.execute('INSERT INTO bajm_eq (utwor) SELECT DISTINCT utwor FROM bajm ORDER BY RANDOM() LIMIT 1')
+        baza.commit()
+        baza.close()
         messagebox.showinfo(title='Zdobyto nowy utwór!', message='Zdobyłeś nowy utwór, sprawdź swoje eq w trakcie walki!')
     if szerokosc_moving == szerokosc1 and wysokosc_moving == wysokosc1 and status1 == 1:
         status1 -= 1 #dezaktywacja obiektu

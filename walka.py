@@ -19,15 +19,16 @@ class jednostka():
         self.hp=IntVar()
         if gracz==True:
             self.hp.set(400)
-            fota=Image.open('test.jpg')
+            fota=Image.open('bohater.jpg')
             self.imie="Biały żołnierz"
         else:
             self.hp.set(100)
             baza=polaczenie()
             kursor = baza.cursor()
             kursor.execute('SELECT DISTINCT utwor FROM przeciwnik ORDER BY RANDOM()')
-            self.imie=kursor.fetchone[0]
-            fota=Image.open('przeciwnik_temp.png')
+            self.imie=kursor.fetchone()[0]
+            fota=Image.open('przeciwnik.png')
+            baza.close()
         fota=fota.resize((250,250),Image.ANTIALIAS)
         self.obraz=ImageTk.PhotoImage(image=fota)
 
@@ -166,7 +167,7 @@ class Walka(Frame):
         # Dropdown menu
         opcje = zbierz()
         self.wybrana = StringVar(self, 'Wybierz broń')
-        polewyboru = OptionMenu(rama, self.wybrana, *opcje)
+        polewyboru = OptionMenu(rama, self.wybrana, 'Wybierz broń', *opcje)
         polewyboru.config(height=2, width = 34)
         polewyboru.grid(column=0,row=0)
 
