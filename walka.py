@@ -15,14 +15,18 @@ class jednostka():
     ####
     # Zadaniem klasy jest tworzenie jednostek do walki
     ####
-    def __init__(self, imie, gracz=False):
-        self.imie=imie
+    def __init__(self, gracz=False):
         self.hp=IntVar()
         if gracz==True:
             self.hp.set(400)
             fota=Image.open('test.jpg')
+            self.imie="Biały żołnierz"
         else:
             self.hp.set(100)
+            baza=polaczenie()
+            kursor = baza.cursor()
+            kursor.execute('SELECT DISTINCT utwor FROM przeciwnik ORDER BY RANDOM()')
+            self.imie=kursor.fetchone[0]
             fota=Image.open('przeciwnik_temp.png')
         fota=fota.resize((250,250),Image.ANTIALIAS)
         self.obraz=ImageTk.PhotoImage(image=fota)
@@ -46,7 +50,7 @@ class Walka(Frame):
         #Tura przeciwnika
         baza = polaczenie()
         kursor = baza.cursor()
-        kursor.execute("SELECT * FROM cytaty WHERE utwor = (?) ORDER BY RANDOM()",[self.przeciwnik.zwrocimie()])
+        kursor.execute("SELECT * FROM przeciwnik WHERE utwor = (?) ORDER BY RANDOM()",[self.przeciwnik.zwrocimie()])
         wynik = kursor.fetchone()[0]
         baza.close()
         sila = len(wynik)
@@ -70,7 +74,7 @@ class Walka(Frame):
         assert czym!="Wybierz broń","Nie wybrano broni"
         baza = polaczenie()
         kursor = baza.cursor()
-        kursor.execute("SELECT * FROM cytaty WHERE utwor = (?) ORDER BY RANDOM()",[czym])
+        kursor.execute("SELECT * FROM bajm WHERE utwor = (?) ORDER BY RANDOM()",[czym])
         wynik = kursor.fetchone()[0]
         baza.close()
         sila=len(wynik)
@@ -190,7 +194,7 @@ def zbierz():
     ####
     baza = polaczenie()
     kursor = baza.cursor()
-    kursor.execute('SELECT DISTINCT utwor FROM cytaty')
+    kursor.execute('SELECT DISTINCT utwor FROM bajm_eq')
     wynik = kursor.fetchall()
     baza.close()
     return [i[0] for i in wynik] #zwraca listę utworów, zamiast listy singletonów z utworami
@@ -201,8 +205,8 @@ Działanie programu
 '''
 okno = Tk()
 okno.geometry('960x640')
-gracz = jednostka('gracz',gracz=True)
-przeciwnik = jednostka('Biala Armia')
+gracz = jednostka(gracz=True)
+przeciwnik = jednostka()
 
 def odswiez(obiekt, okno=okno, gracz=gracz, przeciwnik=przeciwnik):
         ####

@@ -3,6 +3,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 import random
 from os import system
+import sqlite3
 
 root = Tk()
 
@@ -51,9 +52,22 @@ canvas.create_image(szerokosc4,wysokosc4,image=obrazTk4)
 image = canvas.create_image(szerokosc_moving,wysokosc_moving,image=obrazTk_moving)
 
 #okno z miejscem na walkę
+def polaczenie():
+    ####
+    # Funkcja generuje połączenie do bazy danych
+    ####
+    baza = sqlite3.connect('dane.db')
+    return baza
+
 def popup():
     global szerokosc_moving, wysokosc_moving, szerokosc4, wysokosc4, szerokosc3, wysokosc3, szerokosc2, wysokosc2, szerokosc1, wysokosc1, status1, status2, status3, status4    
-    system('python walka.py')
+    if random.randrange(0,1)==0:
+        system('python walka.py')
+    else:
+        baza = polaczenie()
+        kursor = baza.cursor()
+        kursor.execute('INSERT INTO bajm_eq (utwor) SELECT DISTINCT utwor FROM bajm ORDER BY RANDOM() LIMIT 1')
+        messagebox.showinfo(title='Zdobyto nowy utwór!', message='Zdobyłeś nowy utwór, sprawdź swoje eq w trakcie walki!')
     if szerokosc_moving == szerokosc1 and wysokosc_moving == wysokosc1 and status1 == 1:
         status1 -= 1 #dezaktywacja obiektu
     elif szerokosc_moving == szerokosc2 and wysokosc_moving == wysokosc2 and status2 == 1:
