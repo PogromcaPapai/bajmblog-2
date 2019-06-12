@@ -40,7 +40,7 @@ def baza_bajm():
     baza.execute('DROP TABLE IF EXISTS bajm_eq'
     kursor = baza.cursor()
     kursor.execute('CREATE TABLE bajm (tresc text, utwor text)')
-    kursor.execute('CREATE TABLE bajm_eq (tresc text, utwor text)')
+    kursor.execute('CREATE TABLE bajm_eq (utwor text)')
     print('Baza utworzona')
     listaglowna = []
     adres = 'https://www.tekstowo.pl/piosenki_artysty,bajm'
