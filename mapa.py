@@ -7,35 +7,40 @@ import sqlite3
 
 root = Tk()
 
+global mapa_foty
+mapa_foty = [Image.open(x) for x in ['pole_pus.png','pole_krzak.png','pole_woda.png']]
+
+class Pole():
+    def __init__(self):
+        if random.randint(0,100)%11==0:
+            self.interakcja = True
+        else:
+            self.interakcja = False 
+        
+        self.rodzaj=random.randrange(0,3)
+
+    def __repr__(self):
+        return mapa_foty[self.zwrocrodzaj]
+
+    def zwrocrodzaj(self):
+        return self.rodzaj
+    
+    def zwrocinter(self):
+        return self.interakcja
+
 canvas = Canvas(root, width=800, height=800)
 canvas.pack()
 
-#męskie różowe tło
-obraz_tlo=Image.open("różowy.jpg")
-obrazTk_tlo=ImageTk.PhotoImage(obraz_tlo)
+class Mapa(Frame):
+    def render(self):
+        
 
-#seria losowo rozłożonych czarnych obiektów symulujących przeciwników
-obraz1=Image.open("czarny.jpg")
-obrazTk1=ImageTk.PhotoImage(obraz1)
-wysokosc1=random.randrange(24)*20+20
-szerokosc1=random.randrange(24)*20+20
-status1 = 1 #stan aktywności obiektu
+    def __init__(self, poz):
+        self.gracz_x = poz[0]
+        self.gracz_y = poz[1]
 
-obrazTk2=ImageTk.PhotoImage(obraz1)
-wysokosc2=random.randrange(24)*20+20
-szerokosc2=random.randrange(24)*20+20
-status2 = 1
 
-obrazTk3=ImageTk.PhotoImage(obraz1)
-wysokosc3=random.randrange(24)*20+20
-szerokosc3=random.randrange(24)*20+20
-status3 = 1
-
-obrazTk4=ImageTk.PhotoImage(obraz1)
-wysokosc4=random.randrange(24)*20+20
-szerokosc4=random.randrange(24)*20+20
-status4 = 1
-
+'''
 #bialy obiekt sterowany wsadem przez użytkownika
 obraz_moving=Image.open("biały.jpg")
 obrazTk_moving=ImageTk.PhotoImage(obraz_moving)
@@ -121,3 +126,4 @@ przycisk_lokalizacja=Button(root,text="lokalizacja",command=lokalizacja)
 przycisk_lokalizacja.place(y=300,x=700)
 
 root.mainloop()
+'''
