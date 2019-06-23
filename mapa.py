@@ -1,14 +1,18 @@
+import random
+import sqlite3
+from os import system
 from tkinter import *
 from tkinter import messagebox
+
 from PIL import Image, ImageTk
-import random
-from os import system
-import sqlite3
 
 root = Tk()
 
-global mapa_foty
-mapa_foty = [Image.open(x) for x in ['pole_pus.png','pole_krzak.png','pole_woda.png']]
+global mapa_foty, mapa_znaczniki
+nazwyplikow = [[y+'.png',y+'_b.png',y+'_c.png'] for y in ['mapa_obrazy\\pole_pus','mapa_obrazy\\pole_krzak','mapa_obrazy\\pole_woda']]
+mapa_foty = []
+for i in nazwyplikow:
+    mapa_foty.append([ImageTk.PhotoImage(master=root, file=x) for x in i])
 
 class Pole():
     def __init__(self):
@@ -16,11 +20,17 @@ class Pole():
             self.interakcja = True
         else:
             self.interakcja = False 
-        
         self.rodzaj=random.randrange(0,3)
 
-    def __repr__(self):
-        return mapa_foty[self.zwrocrodzaj]
+    def obraz(self, pole):
+        if pole[0]==4 and pole[1]==4:
+            czy=1
+        elif self.zwrocinter()==True:
+            czy=2
+        else:
+            czy=0
+        obrazek = mapa_foty[self.zwrocrodzaj()][czy]
+        return obrazek
 
     def zwrocrodzaj(self):
         return self.rodzaj
@@ -28,18 +38,44 @@ class Pole():
     def zwrocinter(self):
         return self.interakcja
 
-canvas = Canvas(root, width=800, height=800)
-canvas.pack()
+class Mapa():
+    def __init__(self):
+        self.gracz_x = 3
+        self.gracz_y = 3
+        self.mapa = self.mapgen()
 
-class Mapa(Frame):
-    def render(self):
-        
+    def odswiez(self, okno):
+        self.rysunekmapy.destroy()
+        self.render(okno)
 
-    def __init__(self, poz):
-        self.gracz_x = poz[0]
-        self.gracz_y = poz[1]
+    def render(self, okno):
+        self.rysunekmapy=Frame(okno)
+        i_region = 0
+        for i in range(self.zwrocgracz()[1]-3,self.zwrocgracz()[1]+4):
+            i_region +=1
+            j_region = 0
+            for j in range(self.zwrocgracz()[0]-3,self.zwrocgracz()[0]+4):
+                j_region += 1
+                Label(master=self.rysunekmapy, image=self.mapa[i][j].obraz([i_region,j_region])).grid(row=i_region, column=j_region)
+        self.rysunekmapy.pack()
 
+    def mapgen(self):
+        wielkosc = 17
+        mapa = []
+        for i in range(wielkosc):
+            linia = []
+            for j in range(wielkosc):
+                linia.append(Pole())
+            mapa.append(linia)
+        return mapa
 
+    def zwrocgracz(self):
+        return [self.gracz_x, self.gracz_y]
+
+mapa = Mapa()
+mapa.render(root)
+
+root.mainloop()
 '''
 #bialy obiekt sterowany wsadem przez użytkownika
 obraz_moving=Image.open("biały.jpg")
@@ -124,6 +160,4 @@ def lokalizacja():
 
 przycisk_lokalizacja=Button(root,text="lokalizacja",command=lokalizacja)
 przycisk_lokalizacja.place(y=300,x=700)
-
-root.mainloop()
 '''

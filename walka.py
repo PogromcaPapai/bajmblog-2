@@ -2,8 +2,10 @@
 from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
+
 #Import - cytaty
 import sqlite3
+
 #Import - reszta
 import random
 
