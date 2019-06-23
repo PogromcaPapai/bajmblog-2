@@ -17,7 +17,7 @@ Jakub Dakowski, Natalia Majda, Wojciech Zięba
       - `requests`
       - `BeautifulSoup`
       - `sqlite3` - instalowany poprzez zainstalowanie oprogramowania sqlite3
-   2. Uruchom plik `menu.py`
+   2. Uruchom plik `start.bat`
    3. Warto w tym miejscu zaktualizować bazę cytatów. Opcję tą znajdziesz w zakładce "Opcje".
    4. Rozpocznij grę & enjoy!
 ### Tips and tricks:
