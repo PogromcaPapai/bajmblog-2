@@ -18,8 +18,7 @@ def usuwajzle(zwrot):
         ####
         # Usuwa niepożądane znaki/zwroty
         ####
-        listazlych=['<br/>','div class="txt border">','</div','<','>','\n','\r','                    ','div class="song-text"','h2Tekst piosenki:/h2'
-]
+        listazlych=['<br/>','div class="txt border">','</div','<','>','\n','\r','                    ','div class="song-text"','h2Tekst piosenki:/h2']
         for i in listazlych:
                 zwrot = zwrot.replace(i, '')
         return zwrot
