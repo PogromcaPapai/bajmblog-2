@@ -7,6 +7,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 
 root = Tk()
+root.geometry('700x650')
 
 global mapa_foty, mapa_znaczniki
 nazwyplikow = [[y+'.png',y+'_b.png',y+'_c.png'] for y in ['mapa_obrazy\\pole_pus','mapa_obrazy\\pole_krzak','mapa_obrazy\\pole_woda']]
@@ -44,12 +45,24 @@ class Mapa():
         self.gracz_y = 3
         self.mapa = self.mapgen()
 
-    def odswiez(self, okno):
-        self.rysunekmapy.destroy()
-        self.render(okno)
+    ### Funkcje ruszania ###
+    def ruch_prawo(self):
+        self.gracz_x+=1
+        self.calosc.event_generate('<BackSpace>')
+    def ruch_lewo(self):
+        self.gracz_x-=1
+        self.calosc.event_generate('<BackSpace>')
+    def ruch_dol(self):
+        self.gracz_y+=1
+        self.calosc.event_generate('<BackSpace>')
+    def ruch_gora(self):    
+        self.gracz_y-=1
+        self.calosc.event_generate('<BackSpace>')
+
 
     def render(self, okno):
-        self.rysunekmapy=Frame(okno)
+        self.calosc=Frame(okno)
+        self.rysunekmapy=Frame(self.calosc)
         i_region = 0
         for i in range(self.zwrocgracz()[1]-3,self.zwrocgracz()[1]+4):
             i_region +=1
@@ -57,10 +70,19 @@ class Mapa():
             for j in range(self.zwrocgracz()[0]-3,self.zwrocgracz()[0]+4):
                 j_region += 1
                 Label(master=self.rysunekmapy, image=self.mapa[i][j].obraz([i_region,j_region])).grid(row=i_region, column=j_region)
+        self.przyciskgora = Button(master=self.calosc, text='W górę', command=self.ruch_gora)
+        self.przyciskgora.pack(side=TOP)
+        self.przyciskprawo = Button(master=self.calosc, text='Prawo', command=self.ruch_prawo)
+        self.przyciskprawo.pack(side=RIGHT)
+        self.przycisklewo = Button(master=self.calosc, text='Lewo', command=self.ruch_lewo)
+        self.przycisklewo.pack(side=LEFT)
+        self.przyciskdol = Button(master=self.calosc, text='W dół', command=self.ruch_dol)
+        self.przyciskdol.pack(side=BOTTOM)
         self.rysunekmapy.pack()
+        self.calosc.place(relwidth=1,relheight=1)
 
     def mapgen(self):
-        wielkosc = 17
+        wielkosc = 101
         mapa = []
         for i in range(wielkosc):
             linia = []
@@ -72,8 +94,16 @@ class Mapa():
     def zwrocgracz(self):
         return [self.gracz_x, self.gracz_y]
 
+def odswiez(obiekt, okno=root):
+        ####
+        # Funkcja służy do odświeżania interfejsu
+        ####
+        obiekt.calosc.destroy()
+        obiekt.render(root)
+
 mapa = Mapa()
 mapa.render(root)
+root.bind('<BackSpace>', lambda x: odswiez(mapa))
 
 root.mainloop()
 '''
