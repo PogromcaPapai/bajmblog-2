@@ -17,6 +17,9 @@ for i in nazwyplikow:
 
 class Pole():
     def __init__(self):
+        ####
+        # Tworzy pole
+        ####
         if random.randint(0,100)%11==0:
             self.interakcja = True
         else:
@@ -24,6 +27,9 @@ class Pole():
         self.rodzaj=random.randrange(0,3)
 
     def obraz(self, pole):
+        ####
+        # Funkcja pozwala na zwracanie wizualnej reprezentacji pola
+        ####
         if pole[0]==4 and pole[1]==4:
             czy=1
         elif self.zwrocinter()==True:
@@ -41,6 +47,9 @@ class Pole():
 
 class Mapa():
     def __init__(self):
+        ####
+        # Generuje instancję mapy
+        ####
         self.gracz_x = 3
         self.gracz_y = 3
         self.mapa = self.mapgen()
@@ -64,6 +73,9 @@ class Mapa():
         self.calosc.event_generate('<BackSpace>')
 
     def akcja(self):
+        ####
+        # Funkcja uruchamiana przy nastąpieniu na pole z interakcją
+        ####
         if self.mapa[self.gracz_y][self.gracz_x].zwrocinter()==True:
             if random.randrange(0,3)==0:
                 system('python walka.py')
@@ -76,7 +88,11 @@ class Mapa():
                 messagebox.showinfo(title='Zdobyto nowy utwór!', message='Zdobyłeś nowy utwór, sprawdź swoje eq w trakcie walki!')
             self.mapa[self.gracz_y][self.gracz_x].interakcja=False
     def render(self, okno):
+        ####
+        # Generuje okno z mapą
+        ####
         self.calosc=Frame(okno)
+        # Generowanie podglądu mapy
         self.rysunekmapy=Frame(self.calosc)
         i_region = 0
         for i in range(self.zwrocgracz()[1]-3,self.zwrocgracz()[1]+4):
@@ -85,6 +101,7 @@ class Mapa():
             for j in range(self.zwrocgracz()[0]-3,self.zwrocgracz()[0]+4):
                 j_region += 1
                 Label(master=self.rysunekmapy, image=self.mapa[i][j].obraz([i_region,j_region])).grid(row=i_region, column=j_region)
+        # Generowanie reszty UI
         self.przyciskgora = Button(master=self.calosc, text='W górę', command=self.ruch_gora)
         self.przyciskgora.pack(side=TOP)
         self.przyciskprawo = Button(master=self.calosc, text='Prawo', command=self.ruch_prawo)
@@ -97,7 +114,10 @@ class Mapa():
         self.calosc.place(relwidth=1,relheight=1)
 
     def mapgen(self):
-        wielkosc = 101
+        ####
+        # Zwraca losowo wygenerowaną mapę w formie tablicy dwuwymiarowej
+        ####
+        wielkosc = 101 # Wartość do konfiguracji
         mapa = []
         for i in range(wielkosc):
             linia = []
