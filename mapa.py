@@ -78,8 +78,10 @@ class Mapa():
         ####
         if self.mapa[self.gracz_y][self.gracz_x].zwrocinter()==True:
             if random.randrange(0,3)==0:
+                # Rozpoczynanie walki
                 system('python walka.py')
             else:
+                # Dodawanie przedmiotów do eq
                 baza = polaczenie()
                 kursor = baza.cursor()
                 kursor.execute('INSERT INTO bajm_eq (utwor) SELECT DISTINCT utwor FROM bajm ORDER BY RANDOM() LIMIT 1')
@@ -92,6 +94,7 @@ class Mapa():
         # Generuje okno z mapą
         ####
         self.calosc=Frame(okno)
+
         # Generowanie podglądu mapy
         self.rysunekmapy=Frame(self.calosc)
         i_region = 0
