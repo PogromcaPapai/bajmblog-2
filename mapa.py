@@ -50,25 +50,31 @@ class Mapa():
         ####
         # Generuje instancję mapy
         ####
-        self.gracz_x = 3
-        self.gracz_y = 3
+        self.gracz_x = 7
+        self.gracz_y = 7
         self.mapa = self.mapgen()
 
     ### Funkcje ruszania ###
+    def ruch(self, koordynaty, operacja):
+        koordynaty+=1*operacja
+        if koordynaty+3>=len(self.mapa) or koordynaty-3<=0:
+            koordynaty-=1*operacja
+            messagebox.showwarning(title='Zły ruch', message='Doszedłeś tam, gdzie nawet dźwięk Bajmu nie dociera, wybierz inny ruch')
+        return koordynaty
     def ruch_prawo(self):
-        self.gracz_x+=1
+        self.gracz_x=self.ruch(self.gracz_x, 1)
         self.akcja()
         self.calosc.event_generate('<BackSpace>')
     def ruch_lewo(self):
-        self.gracz_x-=1
+        self.gracz_x=self.ruch(self.gracz_x, -1)
         self.akcja()
         self.calosc.event_generate('<BackSpace>')
     def ruch_dol(self):
-        self.gracz_y+=1
+        self.gracz_y=self.ruch(self.gracz_y, 1)
         self.akcja()
         self.calosc.event_generate('<BackSpace>')
     def ruch_gora(self):    
-        self.gracz_y-=1
+        self.gracz_y=self.ruch(self.gracz_y, -1)
         self.akcja()
         self.calosc.event_generate('<BackSpace>')
 
@@ -120,7 +126,7 @@ class Mapa():
         ####
         # Zwraca losowo wygenerowaną mapę w formie tablicy dwuwymiarowej
         ####
-        wielkosc = 101 # Wartość do konfiguracji
+        wielkosc = 13 # Wartość do konfiguracji
         mapa = []
         for i in range(wielkosc):
             linia = []
