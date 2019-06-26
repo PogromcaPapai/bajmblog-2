@@ -50,8 +50,8 @@ class Mapa():
         ####
         # Generuje instancję mapy
         ####
-        self.gracz_x = 7
-        self.gracz_y = 7
+        self.gracz_x = 51
+        self.gracz_y = 51
         self.mapa = self.mapgen()
 
     ### Funkcje ruszania ###
@@ -126,7 +126,7 @@ class Mapa():
         ####
         # Zwraca losowo wygenerowaną mapę w formie tablicy dwuwymiarowej
         ####
-        wielkosc = 13 # Wartość do konfiguracji
+        wielkosc = 101 # Wartość do konfiguracji
         mapa = []
         for i in range(wielkosc):
             linia = []

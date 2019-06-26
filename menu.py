@@ -18,7 +18,9 @@ def usuwajzle(zwrot):
         ####
         # Usuwa niepożądane znaki/zwroty
         ####
-        listazlych=['<br/>','div class="txt border">','</div','<','>','\n','\r','                    ','div class="song-text"','h2Tekst piosenki:/h2']
+        listazlych=['<br/>','div class="txt border">','</div','<','>','\n','\r','div class="revisions" id="song_revisions"',
+                    '                    ','div class="song-text"','h2Tekst piosenki:/h2',
+                    'a class="pokaz-rev" href="javascript:;" id="song_revisions_link" song_id="550694"Poznaj historię zmian tego tekstu span class="icon"/span/a']
         for i in listazlych:
                 zwrot = zwrot.replace(i, '')
         return zwrot
@@ -73,6 +75,8 @@ def baza_bajm():
             dodaj(baza, (tekst, i), 'bajm')
     baza.commit()
     baza.close()
+    messagebox.showinfo("Aktualizacja danych","Zakończyło się pobieranie utworów Bajmu")
+
 def baza_przeciwnik():
     messagebox.showinfo("Aktualizacja danych","Rozpoczęło się pobieranie utworów przeciwnika")
     baza = polaczenie()
@@ -111,6 +115,7 @@ def baza_przeciwnik():
             dodaj(baza, (tekst, i), 'przeciwnik')
     baza.commit()
     baza.close()
+    messagebox.showinfo("Aktualizacja danych","Zakończyło się pobieranie utworów przeciwnika")
 def baza_both():
     baza_bajm()
     baza_przeciwnik()
