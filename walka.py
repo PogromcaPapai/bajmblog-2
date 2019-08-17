@@ -20,7 +20,7 @@ class jednostka():
     def __init__(self, gracz=False):
         self.hp=IntVar()
         if gracz==True:
-            self.hp.set(400)
+            self.hp.set(150)
             fota=Image.open('bohater.jpg')
             self.imie="Biały żołnierz"
         else:
